@@ -43,13 +43,18 @@ def wav_denoising(data_in):
     coeffs_p[4] = wav_hardth(coeffs_p[4])    
     coeffs_p[5] = wav_hardth(coeffs_p[5])    
     coeffs_p[6] = wav_hardth(coeffs_p[6])
+    coeffs_p[7] = wav_hardth(coeffs_p[7])
+    coeffs_p[8] = wav_hardth(coeffs_p[8])
+    #coeffs_p[9] = wav_hardth(coeffs_p[9])
+    
+    coeffs_p[9] = np.zeros(coeffs_p[9].shape)
+    coeffs_p[10] = np.zeros(coeffs_p[10].shape)
+    print(coeffs_p[11])
+    #coeffs_p[10] = wav_hardth(coeffs_p[10])
     
     ## design a denoising method based on high pass filter scheme 
     
-    
     """
-    
-
     coeffs_p[0] =scipy.ndimage.gaussian_filter(wav_hardth(coeffs_p[0]),sigma =0.5)
     coeffs_p[1] =scipy.ndimage.gaussian_filter(wav_hardth(coeffs_p[1]),sigma =0.5)
     coeffs_p[2] =scipy.ndimage.gaussian_filter(wav_hardth(coeffs_p[2]),sigma =0.5)
@@ -75,7 +80,7 @@ def wav_denoising(data_in):
     coeffs_p[5] = np.zeros(coeffs_p[5].size)
     """
     dout = pywt.waverec(coeffs_p,'sym5')
-    dout = dout - scipy.ndimage.gaussian_filter(dout,sigma = 1)
+    #dout = dout - scipy.ndimage.gaussian_filter(dout,sigma = 1)
     return dout
     
 
@@ -111,57 +116,71 @@ for file_path in path_list:
         tmp.trigger_index = []
         tmp.trig_disp_ampl = np.max(abs(data.data.EEGG),1)/2
         
+        ## find trigger index (prt1 changes) position in EEG signal /  data.time.trigger_edge is timestamp of trigger edges
         for onset_time_div in data.time.trigger_edge:
             tmp.tmp = abs(data.time.timestamp-onset_time_div)
             tmp.trigger_index = np.concatenate((tmp.trigger_index, np.argmin(tmp.tmp)), axis = None)
         
+        ## Divide the rising and falling edges on the trigger point of Prt1
         for onset_time_div in range(0,int(np.floor(len(tmp.trigger_index)/2))):
             tmp.rising_index = int(tmp.trigger_index[int(2*onset_time_div)])
             tmp.falling_index = int(tmp.trigger_index[int(2*onset_time_div)+1])
             data.time.trigger_timestamp[tmp.rising_index:tmp.falling_index] = 1
         
+        ## STFT, 768 PTS windowing
         data.data.stft_EEGG = mne.time_frequency.stft(data.data.EEGG, 768)        
-        plt.figure(1)            
+        
+        ## plot time-amplitude graph
+        plt.figure(1)
         for data_ch in range(0, data.info.ch):
             plt.subplot(data.info.ch, 1, data_ch+1)
             plt.plot(data.time.timestamp, data.data.EEGG[data_ch,:])
             plt.plot(data.time.timestamp, data.time.trigger_timestamp * tmp.trig_disp_ampl[data_ch])
-
+            if data_ch==0:
+                plt.title('time-amplitude plot')
         plt.gcf().canvas.draw()
         plt.imsave(file_path + "_time-amplitude.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
        
-
+        ## plot 2D STFT chart
         plt.figure(2)
         for data_ch in range(0, data.info.ch):            
             plt.subplot(data.info.ch/3, 3, data_ch+1)
             plt.imshow(np.flipud(np.squeeze(np.log(abs(data.data.stft_EEGG[data_ch,:,:])))),vmin = vrange[0], vmax = vrange[1], extent =[0,data.info.active_time,0,data.info.fs/2])
-            #plt.imshow(np.flipud(np.squeeze((abs(data.data.stft_EEGG[data_ch,:,:])))),vmin = vrange[0], vmax = vrange[1], extent =[0,data.info.active_time,0,data.info.fs/2])
             plt.ylim([0, 160])
-
+            plt.title('STFT, Ch' + str(data_ch))
+            plt.ylabel('Hz')
+            plt.xlabel('time(s)')
         plt.gcf().canvas.draw()
         plt.imsave(file_path + "_STFT.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
-        data.data.wavEEGG = np.zeros(data.data.EEGG.shape)
         
+        ## Denoising based wavelet transform
+        data.data.wavEEGG = np.zeros(data.data.EEGG.shape)
         for data_ch in range(0,data.info.ch):
             data.data.wavEEGG[data_ch,:] = wav_denoising(data.data.EEGG[data_ch,:])
-            
-        data.data.stft_wavEEGG = mne.time_frequency.stft(data.data.wavEEGG, 768)        
+        
+        ## Plot denoised time-amplitude chart       
         tmp.trig_disp_ampl_denoise = np.max(abs(data.data.wavEEGG),1)/2            
         plt.figure(3)            
         for data_ch in range(0, data.info.ch):
             plt.subplot(data.info.ch, 1, data_ch+1)
             plt.plot(data.time.timestamp, data.data.wavEEGG[data_ch,:])
             plt.plot(data.time.timestamp, data.time.trigger_timestamp * tmp.trig_disp_ampl_denoise[data_ch])            
-            #plt.plot(data.time.timestamp, data.time.trigger_timestamp * tmp.trig_disp_ampl[data_ch])            
+            if data_ch==0:
+                plt.title('time-amplitude plot, wavelet denoised')
         plt.gcf().canvas.draw()
         plt.imsave(file_path + "_WaveletDenoising_time-amplitude.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
       
+        ## Plot denoised STFT chart
+        data.data.stft_wavEEGG = mne.time_frequency.stft(data.data.wavEEGG, 768)        
         plt.figure(4)
         for data_ch in range(0, data.info.ch):            
             plt.subplot(data.info.ch/3, 3, data_ch+1)
             plt.imshow(np.flipud(np.squeeze(np.log(abs(data.data.stft_wavEEGG[data_ch,:,:])))),vmin = vrange[0], vmax = vrange[1], extent =[0,data.info.active_time,0,data.info.fs/2])
             #plt.imshow(np.flipud(np.squeeze((abs(data.data.stft_wavEEGG[data_ch,:,:])))),vmin = vrange[0], vmax = vrange[1], extent =[0,data.info.active_time,0,data.info.fs/2])
             plt.ylim([0, 160])
+            plt.title('STFT, denoised, Ch' + str(data_ch))
+            plt.ylabel('Hz')
+            plt.xlabel('time(s)')            
         plt.gcf().canvas.draw()
         plt.imsave(file_path + "_WaveletDenoising_STFT.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
 
@@ -175,46 +194,3 @@ for file_path in path_list:
             plt.ylim([0, 160])
         plt.gcf().canvas.draw()
 
-
-        #gcf
-        #imsave
-        
-            #ax = plt.gca()
-            #ax.set_xlabel([80,122])
-#        data.data.stft_EEGG = mne.time_frequency.stft(data.data.EEGG, 768)
-#        plt.imshow(np.squeeze(np.log(abs(data.data.stft_EEGG))))
-                                    
-#plt.plot(np.linspace(0,data.info.fs,num=data.info.pts),abs(np.fft.fft(data_read.streams.Wav1.data[1,:])))
-#plt.xlim([0,300])        
-        
-
-        
-"""        
-        for data_ch in range(0,data.streams.Wav1.data.shape[0]):
-            trigger_onset_time = data.epocs.PrtA.onset
-            trigger_onset_array = np.zeros(len(t))
-
-            trigger_index = []
-            for onset_time_div in trigger_onset_time:
-                tmp = abs(t-onset_time_div)
-                trigger_index = np.concatenate((trigger_index, np.argmin(tmp)), axis = None)
-                for onset_time_div in range(0,int(np.floor(len(trigger_index)/2))):
-                    rising_index = int(trigger_index[int(2*onset_time_div)])
-                    falling_index = int(trigger_index[int(2*onset_time_div)+1])
-                    trigger_onset_array[rising_index:falling_index] = 1
-            
-            trig_disp_ampl = np.max(abs(data.streams.Wav1.data),1)/2
-            plt.subplot(data.streams.Wav1.data.shape[0],1,data_ch+1)
-            plt.plot(t,data.streams.Wav1.data[data_ch,:])
-            plt.plot(t,trigger_onset_array * trig_disp_ampl[data_ch])
-            
-            
-            
-            mne.time_frequency.stft(data.streams.Wav1.data[data_ch,:], 256)
-    
-         
-
-            
-## Trigger 신호는 어디에 있는거지?
-
-"""
