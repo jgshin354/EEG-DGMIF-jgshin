@@ -183,9 +183,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
         data_tot.all_epoc_peak_amp = np.concatenate((data_tot.all_epoc_peak_amp, data_tot.all_epoc_peak_rpw), axis = None)
         data_tot.all_epoc_color = np.concatenate((data_tot.all_epoc_color,'Red'), axis = None)
         
-    
                 
-      
 bp_data = DataFrame({'Peak Amplitude(db)' : data_tot.peak_amp,'Color':data_tot.color})        
 plt.figure(6)
 sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data,  color=("#95a5a6"))
@@ -196,6 +194,6 @@ plt.imsave(img_save_path + "A06_Peak_amplitude_CLR_" + source_n + ".png", np.arr
 
 bp_data_all_epoc = DataFrame({'Peak Amplitude(db)' : data_tot.all_epoc_peak_amp,'Color':data_tot.all_epoc_color})        
 plt.figure(7)
-sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data,  color=("#95a5a6"))
+sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data_all_epoc,  color=("#95a5a6"))
 plt.gcf().canvas.draw()
 plt.imsave(img_save_path + "A07_All_epoc_Peak_amplitude_CLR_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
