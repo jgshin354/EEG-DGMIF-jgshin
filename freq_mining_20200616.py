@@ -24,6 +24,10 @@ channel_use = 4
 data_tot = tdt.StructType()        
 data_tot.peak_amp = []
 data_tot.color = []
+data_tot.all_epoc_peak_amp = []
+data_tot.all_epoc_color = []
+data_path_load = 'D:\\Backup\\DGMIF_data\\002_photobiomodulation\\preprocessed_EEG_proc\\'
+img_save_path =  'D:\\Backup\\DGMIF_data\\002_photobiomodulation\\preprocessed_EEG_proc\\figures\\'
 
 for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     print(source_n)
@@ -33,20 +37,27 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     data_epoc.info = tdt.StructType()
     
     
-    dill.load_session(source_n + '_SHAM.pkl')
+    dill.load_session(data_path_load + source_n + '_SHAM.pkl')
     data_epoc.data.sham = data.data.epoc_div_avg
-    dill.load_session(source_n + '_RCW.pkl')
+    data_epoc.data.all_epoc_sham = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_RCW.pkl')
     data_epoc.data.rcw = data.data.epoc_div_avg
-    dill.load_session(source_n + '_RPW.pkl')
+    data_epoc.data.all_epoc_rcw = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_RPW.pkl')
     data_epoc.data.rpw = data.data.epoc_div_avg
-    dill.load_session(source_n + '_GCW.pkl')
+    data_epoc.data.all_epoc_rpw = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_GCW.pkl')
     data_epoc.data.gcw = data.data.epoc_div_avg
-    dill.load_session(source_n + '_GPW.pkl')
+    data_epoc.data.all_epoc_gcw = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_GPW.pkl')
     data_epoc.data.gpw = data.data.epoc_div_avg
-    dill.load_session(source_n + '_BCW.pkl')
+    data_epoc.data.all_epoc_gpw = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_BCW.pkl')
     data_epoc.data.bcw = data.data.epoc_div_avg
-    dill.load_session(source_n + '_BPW.pkl')
+    data_epoc.data.all_epoc_bcw = data.data.epoc_div_ret
+    dill.load_session(data_path_load + source_n + '_BPW.pkl')
     data_epoc.data.bpw = data.data.epoc_div_avg
+    data_epoc.data.all_epoc_bpw = data.data.epoc_div_ret
     
     
     ##왜 3번 채널 AMPLITUDE가 제일 센거지???
@@ -69,7 +80,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     plt.ylim([-100, -35])
     plt.grid(True)
     plt.gcf().canvas.draw()
-    plt.imsave("A01_Spectral_amplitude_sham_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+    plt.imsave(img_save_path + "A01_Spectral_amplitude_sham_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
     
     
     
@@ -84,7 +95,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     plt.ylim([-100, -35])
     plt.grid(True)
     plt.gcf().canvas.draw()
-    plt.imsave("A02_Spectral_amplitude_CW_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+    plt.imsave(img_save_path + "A02_Spectral_amplitude_CW_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
     
     
     plt.figure(3)
@@ -98,7 +109,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     plt.ylim([-100, -35])
     plt.grid(True)
     plt.gcf().canvas.draw()
-    plt.imsave("A03_Spectral_amplitude_Mod_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+    plt.imsave(img_save_path + "A03_Spectral_amplitude_Mod_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
     
     
     
@@ -117,7 +128,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     plt.ylim([-100, -35])
     plt.grid(True)
     plt.gcf().canvas.draw()
-    plt.imsave("A04_Spectral_amplitude_Mod_40-45hz_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+    plt.imsave(img_save_path + "A04_Spectral_amplitude_Mod_40-45hz_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
     
     
     plt.figure(5)
@@ -139,7 +150,7 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     plt.ylim([-60, -35])
     plt.grid(True)
     plt.gcf().canvas.draw()
-    plt.imsave("A05_Spectral_amplitude_Mod_all_channel_rpw_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+    plt.imsave(img_save_path + "A05_Spectral_amplitude_Mod_all_channel_rpw_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
            
 
     data_tot.peak_bpw =  np.max(20*np.log10(np.abs(data_epoc.data.BPW[100:400])))
@@ -155,11 +166,36 @@ for source_n in (['S01', 'S02', 'S03', 'S04', 'S05']):
     data_tot.peak_amp = np.concatenate((data_tot.peak_amp,data_tot.peak_rpw),axis = None)
     data_tot.color = np.concatenate((data_tot.color,'Red'),axis = None)
       
+    # FFT for extract maxmium spectral amplitude for each epoc division data, BOX plot creation
+    for epoc_iter in range(0, data.data.epoc_div_ret.shape[1]):
+        tmp.fft_result = np.fft.fft(data_epoc.data.all_epoc_bpw[channel_use, epoc_iter ,pts_des:pts_des+fft_n])
+        data_tot.all_epoc_peak_bpw = np.max(20*np.log10(np.abs(tmp.fft_result[100:400])))
+        data_tot.all_epoc_peak_amp = np.concatenate((data_tot.all_epoc_peak_amp, data_tot.all_epoc_peak_bpw), axis = None)
+        data_tot.all_epoc_color = np.concatenate((data_tot.all_epoc_color,'Blue'), axis = None)
+        
+        tmp.fft_result = np.fft.fft(data_epoc.data.all_epoc_gpw[channel_use, epoc_iter ,pts_des:pts_des+fft_n])
+        data_tot.all_epoc_peak_gpw = np.max(20*np.log10(np.abs(tmp.fft_result[100:400])))
+        data_tot.all_epoc_peak_amp = np.concatenate((data_tot.all_epoc_peak_amp, data_tot.all_epoc_peak_gpw), axis = None)
+        data_tot.all_epoc_color = np.concatenate((data_tot.all_epoc_color,'Green'), axis = None)
+        
+        tmp.fft_result = np.fft.fft(data_epoc.data.all_epoc_rpw[channel_use, epoc_iter ,pts_des:pts_des+fft_n])
+        data_tot.all_epoc_peak_rpw = np.max(20*np.log10(np.abs(tmp.fft_result[100:400])))
+        data_tot.all_epoc_peak_amp = np.concatenate((data_tot.all_epoc_peak_amp, data_tot.all_epoc_peak_rpw), axis = None)
+        data_tot.all_epoc_color = np.concatenate((data_tot.all_epoc_color,'Red'), axis = None)
+        
+    
                 
+      
 bp_data = DataFrame({'Peak Amplitude(db)' : data_tot.peak_amp,'Color':data_tot.color})        
 plt.figure(6)
-
 sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data,  color=("#95a5a6"))
-
 plt.gcf().canvas.draw()
-plt.imsave("A06_Peak_amplitude_CLR_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+plt.imsave(img_save_path + "A06_Peak_amplitude_CLR_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+
+
+
+bp_data_all_epoc = DataFrame({'Peak Amplitude(db)' : data_tot.all_epoc_peak_amp,'Color':data_tot.all_epoc_color})        
+plt.figure(7)
+sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data,  color=("#95a5a6"))
+plt.gcf().canvas.draw()
+plt.imsave(img_save_path + "A07_All_epoc_Peak_amplitude_CLR_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')

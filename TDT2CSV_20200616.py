@@ -27,6 +27,7 @@ denoising_epocdiv_flag = True
 subpoint_intp_epocdiv_flag = True
 epoc_time_des = 8 ## desired epoc time window = plus minus 5 seconds
 stft_pts = 768
+img_save_path =  'D:\\Backup\\DGMIF_data\\002_photobiomodulation\\preprocessed_EEG_proc\\figures\\'
 
 # Harender, and R. K. Sharma. “EEG Signal Denoising Based on Wavelet Transform.” 
 # In 2017 International Conference of Electronics, Communication and Aerospace Technology (ICECA), 
@@ -124,7 +125,7 @@ for file_path in path_list:
             if data_ch==0:
                 plt.title('time-amplitude plot')
         plt.gcf().canvas.draw()
-        plt.imsave("001_time-amplitude_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "001_time-amplitude_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
        
         ## plot 2D STFT chart
         plt.figure(2)
@@ -136,7 +137,7 @@ for file_path in path_list:
             plt.ylabel('Hz')
             plt.xlabel('time(s)')
         plt.gcf().canvas.draw()
-        plt.imsave("002_STFT_"  + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "002_STFT_"  + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
         
         ## Denoising based wavelet transform
         data.data.wavEEGG = np.zeros(data.data.EEGG.shape)
@@ -153,7 +154,7 @@ for file_path in path_list:
             if data_ch==0:
                 plt.title('time-amplitude plot, wavelet denoised')
         plt.gcf().canvas.draw()
-        plt.imsave("003_WaveletDenoising_time-amplitude_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "003_WaveletDenoising_time-amplitude_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
       
         ## Plot denoised STFT chart
         data.data.stft_wavEEGG = mne.time_frequency.stft(data.data.wavEEGG, stft_pts)        
@@ -167,7 +168,7 @@ for file_path in path_list:
             plt.ylabel('Hz')
             plt.xlabel('time(s)')            
         plt.gcf().canvas.draw()
-        plt.imsave("004_WaveletDenoising_STFT_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "004_WaveletDenoising_STFT_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
 
         ## plot Extracted noise
         extracted_noise = data.data.stft_EEGG-data.data.stft_wavEEGG
@@ -180,7 +181,7 @@ for file_path in path_list:
             plt.ylabel('Hz')
             plt.xlabel('time(s)') 
         plt.gcf().canvas.draw()
-        plt.imsave("005_ExtractedNoise_STFT_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "005_ExtractedNoise_STFT_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
         
         
         
@@ -233,7 +234,7 @@ for file_path in path_list:
             plt.title('all epocs,Ch' + str(data_ch))
 
         plt.gcf().canvas.draw()
-        plt.imsave("006_all_channel_time-amplitude_" + file_path + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "006_all_channel_time-amplitude_" + file_path + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
 
         
         #plot subpixel registration result
@@ -245,7 +246,7 @@ for file_path in path_list:
             plt.legend(('sampled signal','interpolated, compensated signal'))        
             plt.title('example of jitter compensated result')
             plt.gcf().canvas.draw()
-            plt.imsave("007_subpixel_compensation-interpolation_" + file_path + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+            plt.imsave(img_save_path + "007_subpixel_compensation-interpolation_" + file_path + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
 
         
         #averaging 
@@ -258,7 +259,7 @@ for file_path in path_list:
             if data_ch==0:
                 plt.title('time-amplitude plot/averaged')
         plt.gcf().canvas.draw()
-        plt.imsave("008_time-amplitude_avg_intp_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')        
+        plt.imsave(img_save_path + "008_time-amplitude_avg_intp_" + file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')        
         
         # STFT
         ## Plot denoised STFT from denoised/averaged/compensated signals
@@ -272,7 +273,7 @@ for file_path in path_list:
             plt.ylabel('Hz')
             plt.xlabel('time(0.1s)')
         plt.gcf().canvas.draw()
-        plt.imsave("009_STFT_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "009_STFT_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
        
         
         
@@ -289,7 +290,7 @@ for file_path in path_list:
             plt.grid(True)
             plt.title('all epocs (CAR) ,Ch' + str(data_ch))
         plt.gcf().canvas.draw()
-        plt.imsave("010_CAR_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')   
+        plt.imsave(img_save_path + "010_CAR_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')   
         
         
         # STFT CAR signal
@@ -303,7 +304,7 @@ for file_path in path_list:
             plt.ylabel('Hz')
             plt.xlabel('time(0.1s)')
         plt.gcf().canvas.draw()
-        plt.imsave("011_STFT_CAR_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+        plt.imsave(img_save_path + "011_STFT_CAR_epoc_avg_" +file_path + "_.png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
 
         ## save data of variable explorer                
         filename = file_path + '.pkl'        
