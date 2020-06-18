@@ -197,3 +197,4 @@ plt.figure(7)
 sns.boxplot(x="Color", y="Peak Amplitude(db)", data = bp_data_all_epoc,  color=("#95a5a6"))
 plt.gcf().canvas.draw()
 plt.imsave(img_save_path + "A07_All_epoc_Peak_amplitude_CLR_" + source_n + ".png", np.array(plt.gcf().canvas.renderer._renderer), format = 'png')
+
