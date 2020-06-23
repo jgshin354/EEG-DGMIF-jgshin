@@ -16,6 +16,26 @@
 //5h: blue PW,  6h: blue CW 
 
 
+//boolean bRST = false;
+boolean bSTATE = false;
+boolean bOPERATE = false;
+int state_n = 0; // 0: Green, 1: Red, 2: Blue 
+int out_pin = GREENPIN; //Default greenpin
+int frequency = 40; //Unit: Hz, it should be over 1 Hz.
+int period = 1000 / frequency; // (1sec / frequency)
+
+//EXPERIMENT PARAMETERS
+int active_time = 10; //Unit: sec.
+int number_epoc = 10; //(Number_subexp) times ON/OFF
+int resting_time = 120; //Unit: sec.
+
+//TEST PARAMETERS
+//int active_time = 1; //Unit: sec.
+//int number_epoc = 3; //(Number_subexp) times ON/OFF
+//int resting_time = 3; //Unit: sec.
+
+
+
 void setup() {
   pinMode(REDPIN, OUTPUT);
   pinMode(GREENPIN, OUTPUT);
@@ -30,18 +50,6 @@ void setup() {
   digitalWrite(GREENPIN, LOW);
   digitalWrite(BLUEPIN, LOW);
 }
-
-//boolean bRST = false;
-boolean bSTATE = false;
-boolean bOPERATE = false;
-int state_n = 0; // 0: Green, 1: Red, 2: Blue 
-int out_pin = GREENPIN; //Default greenpin
-int frequency = 40; //Unit: Hz, it should be over 1 Hz.
-int period = 1000 / frequency; // (1sec / frequency)
-int active_time = 10; //Unit: sec.
-int number_epoc = 10; //(Number_subexp) times ON/OFF
-int resting_time = 120; //Unit: sec.
-
 
 
 void loop() {
@@ -67,13 +75,19 @@ void loop() {
 }
 
 
-
+void operationCode(){ 
+  pwOp();
+  resting();
+  cwOp();
+  resting();
+  endRef();
+}
 
 
 void pwOp(){
-  for(int epoc_i = 0; number_epoc; epoc_i++){
+  for(int epoc_i = 0; epoc_i < number_epoc; epoc_i++){
     prtOut(pw);
-    for(int count = 0 ; active_time*frequency; count++){
+    for(int count = 0 ; count < active_time*frequency; count++){
         digitalWrite(out_pin,HIGH);
         delay(period/2);
         digitalWrite(out_pin,LOW);
@@ -83,8 +97,9 @@ void pwOp(){
     delay(active_time * 1000);
   }
 }
+
 void cwOp(){ 
-  for(int epoc_i = 0; number_epoc; epoc_i++){
+  for(int epoc_i = 0; epoc_i < number_epoc; epoc_i++){
     prtOut(cw);
     digitalWrite(out_pin, HIGH);
     delay(active_time*1000);
@@ -97,16 +112,6 @@ void cwOp(){
 void resting(){
   delay(resting_time*1000);
 }
-
-void operationCode(){ 
-  pwOp();
-  resting();
-  cwOp();
-  resting();
-  endRef();
-}
-
-
 
 
 void prtOut(int state){
@@ -133,9 +138,6 @@ void prtOut(int state){
 
 }
 
-
-
-
 void stateRef(){
   switch(state_n){
     case 0: out_pin = GREENPIN;  break;
@@ -144,32 +146,33 @@ void stateRef(){
     default:out_pin = GREENPIN;  break;
   }
   
-  if(state_n == 0) {     //green blinking
-    for (int i = 0; i < 3; i++) {
-      digitalWrite(out_pin, HIGH);
-      delay(100);
-      digitalWrite(out_pin, LOW);
-      delay(100);
-    }
-  } 
+
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(out_pin, HIGH);
+    delay(100);
+    digitalWrite(out_pin, LOW);
+    delay(100);
+  }
+
 }
 
 
 void endRef(){
-  if(state_n == 0){     //green blinking
     for (int i = 0; i < 5; i++) {
-      digitalWrite(out_pin, HIGH);
-      delay(500);
-      digitalWrite(out_pin, LOW);
+      digitalWrite(REDPIN, HIGH);
+      digitalWrite(GREENPIN, HIGH);
+      digitalWrite(BLUEPIN, HIGH); 
+      delay(1000);
+      digitalWrite(REDPIN, LOW);
+      digitalWrite(GREENPIN, LOW);
+      digitalWrite(BLUEPIN, LOW);
       delay(500);
     }
-  }
 }
 
 
 
 /*
-
 void stateRef()
 {  
   if(state_n == 0){     //green blinking
@@ -197,9 +200,6 @@ void stateRef()
     }
   }
 }
-
-
-
 void endRef()
 {
   if(state_n == 0){     //green blinking
@@ -227,9 +227,6 @@ void endRef()
     }
   }
 }
-
-
-
 */
 /*
 int count=0;
@@ -239,22 +236,15 @@ int count_limit=treatment_time*frequency;
 int trigger_time=500; //Unit: msec.
 int number_subexp=10; //(Number_subexp) times ON/OFF
 int number_subexp_count=0;
-
-
-
-
 void loop() {
   while(number_subexp_count<number_subexp) {
     analogWrite(TDTPIN, 0); //TDT trigger ON to mark START time
     //delay(trigger_time);
     //analogWrite(TDTPIN, 0); //TDT trigger 0.5 sec
-
     analogWrite(REDPIN, 255); //Red LED ON
     analogWrite(GREENPIN, 0); 
     analogWrite(BLUEPIN, 0);
-
     delay(treatment_time*1000);
-
     analogWrite(REDPIN, 0); //Red LED OFF
     analogWrite(GREENPIN, 0);
     analogWrite(BLUEPIN, 0);
@@ -262,9 +252,7 @@ void loop() {
     //analogWrite(TDTPIN, 255); //TDT trigger ON to mark END time
     //delay(trigger_time);
     analogWrite(TDTPIN, 255); //TDT trigger 0.5 sec
-
     delay(treatment_time*1000);
-
     count=0; //counter reset
     number_subexp_count++;
   }
