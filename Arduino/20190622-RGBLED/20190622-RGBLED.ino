@@ -1,3 +1,6 @@
+#define off 0
+#define pw 1
+#define cw 2
 #define REDPIN 5
 #define GREENPIN 6
 #define BLUEPIN 3
@@ -11,6 +14,7 @@
 //1h: green PW, 2h: green CW
 //3h: red PW,   4h: red CW
 //5h: blue PW,  6h: blue CW 
+
 
 void setup() {
   pinMode(REDPIN, OUTPUT);
@@ -31,10 +35,16 @@ void setup() {
 boolean bSTATE = false;
 boolean bOPERATE = false;
 int state_n = 0; // 0: Green, 1: Red, 2: Blue 
-int out_pin = 0;
+int out_pin = GREENPIN; //Default greenpin
+int frequency = 40; //Unit: Hz, it should be over 1 Hz.
+int period = 1000 / frequency; // (1sec / frequency)
+int active_time = 10; //Unit: sec.
+int number_epoc = 10; //(Number_subexp) times ON/OFF
+int resting_time = 120; //Unit: sec.
+
+
 
 void loop() {
-  
   if(digitalRead(STATE) == HIGH){
     if(bSTATE == false){
       bSTATE = true;
@@ -45,13 +55,10 @@ void loop() {
   else{
     bSTATE = false;
   }
-
-
   if(digitalRead(OPERATE) == HIGH){
     if(bOPERATE == false){
       bOPERATE = true;
       operationCode();
-      endRef();
     }
   }
   else{
@@ -59,13 +66,77 @@ void loop() {
   }
 }
 
-void operationCode()
-{
+
+
+
+
+void pwOp(){
+  for(int epoc_i = 0; number_epoc; epoc_i++){
+    prtOut(pw);
+    for(int count = 0 ; active_time*frequency; count++){
+        digitalWrite(out_pin,HIGH);
+        delay(period/2);
+        digitalWrite(out_pin,LOW);
+        delay(period/2);
+    }
+    prtOut(off);
+    delay(active_time * 1000);
+  }
+}
+void cwOp(){ 
+  for(int epoc_i = 0; number_epoc; epoc_i++){
+    prtOut(cw);
+    digitalWrite(out_pin, HIGH);
+    delay(active_time*1000);
+    prtOut(off);
+    digitalWrite(out_pin, LOW);
+    delay(active_time*1000);
+  }
+}
+
+void resting(){
+  delay(resting_time*1000);
+}
+
+void operationCode(){ 
+  pwOp();
+  resting();
+  cwOp();
+  resting();
+  endRef();
 }
 
 
-void stateRef()
-{
+
+
+void prtOut(int state){
+  if(state == pw){
+    switch(state_n){
+      case 0: digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, LOW); digitalWrite(TDTPIN0, HIGH); break; //1h: green PW
+      case 1: digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, HIGH); digitalWrite(TDTPIN0, HIGH); break; //3h: red PW
+      case 2: digitalWrite(TDTPIN2, HIGH); digitalWrite(TDTPIN1, LOW); digitalWrite(TDTPIN0, HIGH); break; //5h: blue PW
+      default:digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, LOW); digitalWrite(TDTPIN0, HIGH);  break; //1h: green PW
+    }
+  }
+  else if (state == cw){
+    switch(state_n){
+      case 0: digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, HIGH); digitalWrite(TDTPIN0, LOW); break; //2h: green PW
+      case 1: digitalWrite(TDTPIN2, HIGH); digitalWrite(TDTPIN1, LOW); digitalWrite(TDTPIN0, LOW); break; //4h: red PW
+      case 2: digitalWrite(TDTPIN2, HIGH); digitalWrite(TDTPIN1, HIGH); digitalWrite(TDTPIN0, LOW); break; //6h: blue PW
+      default:digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, HIGH); digitalWrite(TDTPIN0, LOW);  break; //2h: green PW
+    }
+  }
+
+  else if (state == off){
+    digitalWrite(TDTPIN2, LOW); digitalWrite(TDTPIN1, LOW); digitalWrite(TDTPIN0, LOW); //0h: LED off
+  }
+
+}
+
+
+
+
+void stateRef(){
   switch(state_n){
     case 0: out_pin = GREENPIN;  break;
     case 1: out_pin = REDPIN;    break;
@@ -84,8 +155,7 @@ void stateRef()
 }
 
 
-void endRef()
-{
+void endRef(){
   if(state_n == 0){     //green blinking
     for (int i = 0; i < 5; i++) {
       digitalWrite(out_pin, HIGH);
