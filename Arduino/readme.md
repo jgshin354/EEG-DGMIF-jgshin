@@ -43,18 +43,18 @@ void operationCode(){  //frequency, 40Hz, 19Hz, 9Hz, 6Hz
 	resting();
 
 	frequency = 9; //Unit: Hz, it should be over 1 Hz.
-    period = (1000/frequency); // (1sec / frequency)  
-    pwOp();
-    resting(); 
+	period = (1000/frequency); // (1sec / frequency)  
+	pwOp();
+	resting(); 
 
-    frequency = 6; //Unit: Hz, it should be over 1 Hz.
-    period = (1000/frequency); // (1sec / frequency)  
-    pwOp();
-    resting();    
+	frequency = 6; //Unit: Hz, it should be over 1 Hz.
+	period = (1000/frequency); // (1sec / frequency)  
+	pwOp();
+	resting();    
 
-    cwOp();
-    resting();
-    endRef();
+	cwOp();
+	resting();
+	endRef();
 }
 ```
 
