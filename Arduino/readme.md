@@ -18,5 +18,47 @@
 - 3h: red PW,   4h: red CW 
 - 5h: blue PW,  6h: blue CW 
 
+## 20190624-RGBLED-freq_mod
+
+1. Color selection using button / GRB
+2. Frequency selection using button / 40Hz,  19Hz, 9Hz, 6Hz
+
+
+
+## 20190624-RGBLED_seq_freq
+
+1. Color selection using button / GRB
+2. Sequential frequency variation /  40Hz,  19Hz, 9Hz, 6Hz
+
+```Arduino C
+void operationCode(){  //frequency, 40Hz, 19Hz, 9Hz, 6Hz
+	frequency = 40; //Unit: Hz, it should be over 1 Hz.
+	period = (1000/frequency); // (1sec / frequency)  
+	pwOp();
+	resting();
+
+	frequency = 19; //Unit: Hz, it should be over 1 Hz.
+	period = (1000/frequency); // (1sec / frequency)  
+	pwOp();
+	resting();
+
+	frequency = 9; //Unit: Hz, it should be over 1 Hz.
+    period = (1000/frequency); // (1sec / frequency)  
+    pwOp();
+    resting(); 
+
+    frequency = 6; //Unit: Hz, it should be over 1 Hz.
+    period = (1000/frequency); // (1sec / frequency)  
+    pwOp();
+    resting();    
+
+    cwOp();
+    resting();
+    endRef();
+}
+```
+
+
+
 
 
