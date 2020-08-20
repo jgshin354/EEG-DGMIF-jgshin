@@ -24,7 +24,8 @@ int state_n = 0; // 0: Green, 1: Red, 2: Blue
 int freq_n = 0; // 0: 40Hz, 1: 19Hz, 2: 9Hz, 3: 6Hz
 int out_pin = GREENPIN; //Default greenpin
 int frequency = 40; //Unit: Hz, it should be over 1 Hz.
-unsigned long half_period = 1000 / frequency / 2; // (1sec / frequency)
+int half_period_mil = 1000 / frequency / 2; // (1sec / frequency)
+int half_period_micro = (1000 * ((1000 / frequency / 2)%1));
 //unsigned long period_half_int = period/2 
 
 //EXPERIMENT PARAMETERS
@@ -92,11 +93,11 @@ void loop() {
 
 void freqRef(){
   switch(freq_n){ // 0: 40Hz, 1: 19Hz, 2: 9Hz, 3: 6Hz
-    case 0: frequency = 40; half_period = (1000/frequency)/2;  break;
-    case 1: frequency = 19; half_period = (1000/frequency)/2;  break;
-    case 2: frequency = 9; half_period = (1000/frequency)/2;  break;
-    case 3: frequency = 6; half_period = (1000/frequency)/2;  break;
-    default: frequency = 40; half_period = (1000/frequency)/2;  break;
+    case 0: frequency = 40; half_period_mil = (1000/frequency)/2;  half_period_micro = (1000 * ((1000 / frequency / 2)%1)); break;
+    case 1: frequency = 19; half_period_mil = (1000/frequency)/2; half_period_micro = (1000 * ((1000 / frequency / 2)%1)); break;
+    case 2: frequency = 9; half_period_mil = (1000/frequency)/2; half_period_micro = (1000 * ((1000 / frequency / 2)%1)); break;
+    case 3: frequency = 6; half_period_mil = (1000/frequency)/2; half_period_micro = (1000 * ((1000 / frequency / 2)%1)); break;
+    default: frequency = 40; half_period_mil = (1000/frequency)/2; half_period_micro = (1000 * ((1000 / frequency / 2)%1)); break;
   }
 
 
@@ -127,9 +128,11 @@ void pwOp(){
     prtOut(pw);
     for(int count = 0 ; count < active_time*frequency; count++){
         digitalWrite(out_pin,HIGH);
-        delay(half_period);
+        delay(half_period_mil);
+        delayMicroseconds(half_period_micro);
         digitalWrite(out_pin,LOW);
-        delay(half_period);
+        delay(half_period_mil);
+        delayMicroseconds(half_period_micro);
     }
     prtOut(off);
     delay(active_time * 1000);
