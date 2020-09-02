@@ -4,7 +4,7 @@
 #define REDPIN 5
 #define GREENPIN 6
 #define BLUEPIN 3
-#define FREQPIN 2 //jgshin Add
+#define FREQPIN 8 //jgshin Add
 #define STATEPIN 7 //jgshin Add
 #define OPERATEPIN 12 // jgshin ADD
 #define TDTPIN0 9
