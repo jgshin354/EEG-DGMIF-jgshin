@@ -29,9 +29,9 @@ int half_period_micro = (1000000 / frequency / 2) % 1000;
 //unsigned long period_half_int = period/2 
 
 //EXPERIMENT PARAMETERS
-int active_time = 10; //Unit: sec.
+unsigned long active_time = 10; //Unit: sec.
 int number_epoc = 10; //(Number_subexp) times ON/OFF
-int resting_time = 120; //Unit: sec.
+unsigned long resting_time = 120; //Unit: sec.
 
 //TEST PARAMETERS
 //int active_time = 1; //Unit: sec.
