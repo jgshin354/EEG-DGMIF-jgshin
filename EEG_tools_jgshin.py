@@ -31,6 +31,39 @@ def get_boundary():
     -4.6673, -0.9197, -4.6266, -0.7297, -4.5799, -0.5397, -4.5268, -0.3497,-4.4670, -0.1597, -4.4000, 0.03025]).reshape(-1, 2)
 
 
+
+def get_boundary_rat():
+ return np.array([
+    -4.400, 0.030, -4.180, 0.609, -3.960, 1.148, -3.740, 1.646, -3.520, 2.105, -3.300, 2.525, -3.080, 2.908, -2.860, 3.255,
+    -2.640, 3.566, -2.420, 3.843, -2.200, 4.086, -1.980, 4.298, -1.760, 4.4799, -1.540, 4.6321, -1.320, 4.7567, -1.100, 4.8553,
+    -0.880, 4.9298, -0.660, 4.9822, -0.440, 5.0150, -0.220, 5.0312,0, 5.035, 0.220, 5.0312, 0.440, 5.0150, 0.660, 4.9822,
+    0.880, 4.9298, 1.100, 4.8553, 1.320, 4.7567, 1.540, 4.6321,1.760, 4.4799, 1.980, 4.2986, 2.200, 4.0867, 2.420, 3.8430,
+    2.640, 3.5662, 2.860, 3.2551, 3.080, 2.9087, 3.300, 2.5258,3.520, 2.1054, 3.740, 1.6466, 3.960, 1.1484, 4.180, 0.6099,
+    4.400, 0.0302, 4.400, 0.0302, 4.467, -0.1597, 4.5268, -0.3497,4.5799, -0.5397, 4.6266, -0.7297, 4.6673, -0.9197, 4.7025, -1.1097,
+    4.7326, -1.2997, 4.7579, -1.4897, 4.7789, -1.6797, 4.7960, -1.8697,4.8095, -2.0597, 4.8199, -2.2497, 4.8277, -2.4397, 4.8331, -2.6297,
+    4.8366, -2.8197, 4.8387, -3.0097, 4.8396, -3.1997, 4.8399, -3.3897,4.8384, -3.5797, 4.8177, -3.7697, 4.7776, -3.9597, 4.7237, -4.1497,
+    4.6620, -4.3397, 4.5958, -4.5297, 4.5021, -4.7197, 4.400, -4.8937,4.1800, -5.1191, 3.9600, -5.3285, 3.7400, -5.5223, 3.5200, -5.7007,
+    3.3000, -5.8642, 3.0800, -6.0131, 2.8600, -6.1478, 2.6400, -6.2688,2.4200, -6.3764, 2.2000, -6.4712, 1.9800, -6.5536, 1.7600, -6.6241,
+    1.5400, -6.6833, 1.3200, -6.7317, 1.1000, -6.7701, 0.8800, -6.7991,0.6600, -6.8194, 0.4400, -6.8322, 0.2200, -6.8385, 0, -6.840,
+    -0.220, -6.8385, -0.440, -6.8322, -0.660, -6.8194, -0.880, -6.7991,-1.100, -6.7701, -1.320, -6.7317, -1.540, -6.6833, -1.760, -6.6241,
+    -1.980, -6.5536, -2.200, -6.4712, -2.420, -6.3764, -2.640, -6.2688,-2.860, -6.1478, -3.080, -6.0131, -3.300, -5.8642, -3.520, -5.7007,
+    -3.740, -5.5223, -3.960, -5.3285, -4.180, -5.1191, -4.400, -4.89370,-4.5021, -4.7197, -4.5958, -4.5297, -4.6620, -4.3397, -4.7237, -4.1497,
+    -4.7776, -3.9597, -4.8177, -3.7697, -4.8384, -3.5797, -4.8399, -3.3897,-4.8397, -3.1997, -4.8387, -3.0097, -4.8367, -2.8197, -4.8331, -2.6297,
+    -4.8277, -2.4397, -4.8200, -2.2497, -4.8095, -2.0597, -4.7960, -1.8697,-4.7789, -1.6797, -4.7579, -1.4897, -4.7326, -1.2997, -4.7025, -1.1097,
+    -4.6673, -0.9197, -4.6266, -0.7297, -4.5799, -0.5397, -4.5268, -0.3497,-4.4670, -0.1597, -4.4000, 0.03025]).reshape(-1, 2)*2
+
+
+
+def montage_table_rat_20200924():
+    ch_name = ['1','2','3','4','5','6','7','8','9','10','11','12','13','LE','RE']
+    x_ml = [0,-1.75,1.75,-3.5,0,3.5,-5.25,-1.75,1.75,5.25,-3.5,0,3.5,-10.2,10.2]
+    y_ap = [6,3,3,0,0,0,-3,-3,-3,-3,-6,-6,-6,-8,-8]
+    z_dv = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    return DataFrame({'ch_name' : ch_name, 'x_ml' : x_ml, 'y_ap':y_ap, 'z_dv':z_dv})
+
+
+
+
 def montage_table_rodent_full():
    ch_name = ['FP1', 'FP2', 'AF3', 'AF4', 'AF7', 'AF8', 'F1', 'F2', 'F5', 'F6', 'FC1', 'FC2', 'FC5', 'FC6', 'C1', 'C2', 'C3', 'C4', 
    'C5', 'C6', 'CP1', 'CP2', 'CP3', 'CP4', 'CP5', 'CP6', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'PO3', 'PO4', 'PO7', 'PO8', 'O1', 'O2']
@@ -95,6 +128,39 @@ def plt_montage_template(montage_table):
     boundary = get_boundary()
     for p in range(len(boundary)-1): plt.plot(boundary[p:p+2,0],boundary[p:p+2,1], 'k-')
 
+
+
+def plt_montage_template(montage_table):
+    plt.style.use('ggplot')
+    plt.rcParams['font.family']='sans-serif'
+    plt.rcParams['text.color']='black'; plt.rcParams['axes.labelcolor']='black'
+    plt.rcParams['xtick.color']='black'; plt.rcParams['ytick.color']='black'
+    elec_montage = np.array(montage_table)[:, 1:3]
+    
+    # Open figure handle
+    #plt.figure(figsize=(4.5,5))
+    
+    # Plot EEG channels position (total 36 channels)
+    plt.plot( elec_montage[:13,0], elec_montage[:13,1], 'go' )
+    for chanIdx in range(elec_montage.shape[0]):
+      plt.text( elec_montage[chanIdx,0], elec_montage[chanIdx,1]+.2,
+               montage_table['ch_name'][chanIdx], ha='center', fontsize=8 )
+    
+    # Plot Ref/Gnd electrode position
+    plt.plot( elec_montage[13:,0], elec_montage[13:,1], 'rs' )
+    plt.text(0, 0.0, 'BP', fontsize=12, weight='bold', ha='center',va='center');
+    plt.text(0,-4.2, 'LP', fontsize=12, weight='bold', ha='center',va='center');
+    
+    plt.xlabel('ML coordinate (mm)'); plt.ylabel('AP coordinate (mm)');
+    plt.title('2D electrode montage');
+    plt.legend(['Active','Ref/Gnd'], loc='upper right', facecolor='w');
+    plt.gca().set_facecolor((1,1,1))
+    plt.grid(False); plt.axis([-11, 13, -14, 12])
+       
+    boundary = get_boundary_rat()
+    for p in range(len(boundary)-1): plt.plot(boundary[p:p+2,0],boundary[p:p+2,1], 'k-')
+
+
 def plot_mont_2d(xx, yy, data, cmap_in, clim, title_fig, montage_table):
     plt.contourf(xx, yy,  data, cmap=cmap_in, levels = np.linspace(clim[0],clim[1],100))
     plt.title(title_fig, fontsize = 10)
@@ -108,6 +174,25 @@ def plot_mont_2d(xx, yy, data, cmap_in, clim, title_fig, montage_table):
     plt.plot(montage_table['x_ml'][0:5],montage_table['y_ap'][0:5], 'k.')    
     plt.axis( (-5.5, 5.5, -7, 5.2) ) 
     plt.gca().set_facecolor((1,1,1))
+
+
+
+
+def plot_mont_2d_rat(xx, yy, data, cmap_in, clim, title_fig, montage_table):
+    plt.contourf(xx, yy,  data, cmap=cmap_in, levels = np.linspace(clim[0],clim[1],100))
+    plt.title(title_fig, fontsize = 10)
+    plt.grid(False)
+    plt.gca().set_aspect('equal','box')
+    plt.xlabel('ML coordinate (mm)', fontsize=10);
+    plt.ylabel('AP coordinate (mm)', fontsize=10);
+    plt.text(0, 0.0, 'BP', color='w', fontsize=10, weight='bold', ha='center',va='center');
+    plt.text(0,-4.2, 'LP', color='w', fontsize=10, weight='bold', ha='center',va='center');
+    if clim is not None: plt.clim(clim)
+    plt.plot(montage_table['x_ml'][0:13],montage_table['y_ap'][0:13], 'k.')    
+    plt.axis( (-11, 11, -14, 10.4) ) 
+    plt.gca().set_facecolor((1,1,1))
+
+
 
 class bi_interp2:
   def __init__(self, x, y, z, xb, yb, xi, yi, method='linear'):
