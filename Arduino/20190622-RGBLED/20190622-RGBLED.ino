@@ -31,10 +31,18 @@ void setup() {
 boolean bSTATE = false;
 boolean bOPERATE = false;
 int state_n = 0; // 0: Green, 1: Red, 2: Blue 
-int out_pin = 0;
+int out_pin = GREENPIN;
+
+int count=0;
+int frequency=40; //Unit: Hz, it should be over 1 Hz.
+int treatment_time=10; //Unit: sec.
+int count_limit=treatment_time*frequency;
+int trigger_time=500; //Unit: msec.
+int number_subexp=10; //(Number_subexp) times ON/OFF
+int number_subexp_count=0;
+
 
 void loop() {
-  
   if(digitalRead(STATE) == HIGH){
     if(bSTATE == false){
       bSTATE = true;
@@ -98,69 +106,7 @@ void endRef()
 
 
 
-/*
 
-void stateRef()
-{  
-  if(state_n == 0){     //green blinking
-    for (int i = 0; i < 3; i++) {
-      digitalWrite(GREENPIN, HIGH);
-      delay(100);
-      digitalWrite(GREENPIN, LOW);
-      delay(100);
-    }
-  }
-  else if(state_n ==1){ //red blinking
-    for (int i = 0; i < 4; i++) {
-      digitalWrite(REDPIN, HIGH);
-      delay(100);
-      digitalWrite(REDPIN, LOW);
-      delay(100);
-    }
-  }
-  else if(state_n ==2){ //blue blinking
-    for (int i = 0; i < 4; i++) {
-      digitalWrite(BLUEPIN, HIGH);
-      delay(100);
-      digitalWrite(BLUEPIN, LOW);
-      delay(100);
-    }
-  }
-}
-
-
-
-void endRef()
-{
-  if(state_n == 0){     //green blinking
-    for (int i = 0; i < 5; i++) {
-      digitalWrite(GREENPIN, HIGH);
-      delay(500);
-      digitalWrite(GREENPIN, LOW);
-      delay(500);
-    }
-  }
-  else if(state_n ==1){ //red blinking
-    for (int i = 0; i < 5; i++) {
-      digitalWrite(REDPIN, HIGH);
-      delay(500);
-      digitalWrite(REDPIN, LOW);
-      delay(500);
-    }
-  }
-  else if(state_n ==2){ //blue blinking
-    for (int i = 0; i < 5; i++) {
-      digitalWrite(BLUEPIN, HIGH);
-      delay(500);
-      digitalWrite(BLUEPIN, LOW);
-      delay(500);
-    }
-  }
-}
-
-
-
-*/
 /*
 int count=0;
 int frequency=40; //Unit: Hz, it should be over 1 Hz.
