@@ -1,0 +1,8 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  DLL_TEST_DSP.cpp
+c:\users\jgshi\onedrive\documents\visual studio 2015\projects\dll_test_dsp_2\dll_test_dsp\dll_test_dsp.cpp(33): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jgshi\onedrive\documents\visual studio 2015\projects\dll_test_dsp_2\dll_test_dsp\dll_test_dsp.cpp(69): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     C:\Users\jgshi\OneDrive\Documents\Visual Studio 2015\Projects\DLL_TEST_DSP_2\x64\Debug\DLL_TEST_DSP.lib 라이브러리 및 C:\Users\jgshi\OneDrive\Documents\Visual Studio 2015\Projects\DLL_TEST_DSP_2\x64\Debug\DLL_TEST_DSP.exp 개체를 생성하고 있습니다.
+  DLL_TEST_DSP.vcxproj -> C:\Users\jgshi\OneDrive\Documents\Visual Studio 2015\Projects\DLL_TEST_DSP_2\x64\Debug\DLL_TEST_DSP.dll
+  DLL_TEST_DSP.vcxproj -> C:\Users\jgshi\OneDrive\Documents\Visual Studio 2015\Projects\DLL_TEST_DSP_2\x64\Debug\DLL_TEST_DSP.pdb (Full PDB)
