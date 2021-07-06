@@ -1,0 +1,1 @@
+C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\x64\Debug\EEG_Quantization.dll
