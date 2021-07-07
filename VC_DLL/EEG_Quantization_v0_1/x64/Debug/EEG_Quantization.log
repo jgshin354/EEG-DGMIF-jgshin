@@ -1,0 +1,8 @@
+﻿  pch.cpp
+  dllmain.cpp
+  EEG_Quantization.cpp
+C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\EEG_Quantization.cpp(16,1): warning C4273: 'fibonacci_init': dll 연결이 일치하지 않습니다.
+C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\EEG_Quantization.h(23,38): message : 'fibonacci_init'의 이전 정의를 참조하십시오.
+  코드를 생성하고 있습니다...
+     C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\x64\Debug\EEG_Quantization.lib 라이브러리 및 C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\x64\Debug\EEG_Quantization.exp 개체를 생성하고 있습니다.
+  EEG_Quantization.vcxproj -> C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0\x64\Debug\EEG_Quantization.dll

@@ -1,0 +1,10 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(77,5): warning : 'c:\users\jgshi\documents\github\eeg-dgmif-jgshin\vc_dll\eeg_quantization_v0_1\x64\release\eeg_quantization.pdb' 경로에 대한 액세스가 거부되었습니다.
+  pch.cpp
+  dllmain.cpp
+  EEG_Quantization.cpp
+     C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0_1\x64\Release\EEG_Quantization.lib 라이브러리 및 C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0_1\x64\Release\EEG_Quantization.exp 개체를 생성하고 있습니다.
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+  All 8 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  EEG_Quantization.vcxproj -> C:\Users\jgshi\Documents\GitHub\EEG-DGMIF-jgshin\VC_DLL\EEG_Quantization_v0_1\x64\Release\EEG_Quantization.dll
