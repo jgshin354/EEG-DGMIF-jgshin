@@ -30,7 +30,7 @@ int half_period_micro = (1000000 / frequency / 2) % 1000;
 
 //EXPERIMENT PARAMETERS
 unsigned long active_time = 10; //Unit: sec.
-int number_epoc = 360; //(Number_subexp) times ON/OFF
+int number_epoc = 60; //(Number_subexp) times ON/OFF
 unsigned long resting_time = 0; //Unit: sec.
 
 //TEST PARAMETERS
@@ -136,8 +136,8 @@ void pwOp2(){
         delay(half_period_mil);
         delayMicroseconds(half_period_micro);
     }
-    //prtOut(off);                              // LED off 10seconds
-    //delay(active_time * 1000);
+    prtOut(off);                              // LED off 10seconds
+    delay(active_time * 1000);
   }
 }
 

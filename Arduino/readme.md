@@ -60,5 +60,15 @@ void operationCode(){  //frequency, 40Hz, 19Hz, 9Hz, 6Hz
 
 
 
+## 20210607-RGBLED-freq_mod-adv_freq
 
+1. RED PW only
+2. iterate 360 times 10 second PW (60min) 
+
+
+
+## 20190713-RGBLED_seq_freq
+
+1. RED PW only
+2. iterate 60 times PW-Rest (20min) 
 
