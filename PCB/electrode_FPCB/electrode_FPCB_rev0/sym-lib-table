@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name electrode_FPCB_rev0-rescue)(type Legacy)(uri ${KIPRJMOD}/electrode_FPCB_rev0-rescue.lib)(options "")(descr ""))
+)
