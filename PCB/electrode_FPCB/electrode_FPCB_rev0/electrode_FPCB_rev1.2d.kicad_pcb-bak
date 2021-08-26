@@ -92,7 +92,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "rev1.2c_gerber/"))
+      (outputdirectory "rev1.2d_gerber/"))
   )
 
   (net 0 "")
@@ -7045,7 +7045,7 @@
   (gr_line (start 93.55 93.65) (end 93.55 97.7) (layer Edge.Cuts) (width 0.1))
   (gr_arc (start 125.3 55.7) (end 121.800001 59.299999) (angle -269.1930705) (layer Edge.Cuts) (width 0.1) (tstamp 6107A000))
   (gr_arc (start 67.3 55.7) (end 70.799999 52.100001) (angle -269.1930705) (layer Edge.Cuts) (width 0.1) (tstamp 6107A000))
-  (gr_text "VR EEG electrode v1.2c\n" (at 96.25 77.25 90) (layer F.SilkS)
+  (gr_text "VR EEG electrode v1.2d\nSJLEE/JGSHIN" (at 96.25 77.25 90) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (gr_arc (start 96.3 35.7) (end 101.8 35.7) (angle -180) (layer Edge.Cuts) (width 0.1))
